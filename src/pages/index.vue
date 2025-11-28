@@ -412,18 +412,7 @@
 
   onMounted(() => {
     // Initialize with teams but don't start tournament yet
-    const data = teamsData as TeamSeedData
-    for (const [name, seed] of Object.entries(data)) {
-      store.teams[name] = {
-        name,
-        seed,
-        wins: 0,
-        losses: 0,
-        buchholz: 0,
-        opponents: [],
-        status: 'active',
-      }
-    }
+    store.loadTeams()
   })
 </script>
 

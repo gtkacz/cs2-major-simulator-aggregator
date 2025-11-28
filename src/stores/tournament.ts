@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import teamsData from '@/data/teams.json'
 
 function generateMatchId (): string {
-  return Math.random().toString(36).slice(2, 11)
+  return crypto.randomUUID()
 }
 
 export const useTournamentStore = defineStore('tournament', {
@@ -72,6 +72,23 @@ export const useTournamentStore = defineStore('tournament', {
   },
 
   actions: {
+    loadTeams (customTeams?: TeamSeedData) {
+      // Load teams without starting tournament
+      const data = customTeams || (teamsData as TeamSeedData)
+      this.teams = {}
+      for (const [name, seed] of Object.entries(data)) {
+        this.teams[name] = {
+          name,
+          seed,
+          wins: 0,
+          losses: 0,
+          buchholz: 0,
+          opponents: [],
+          status: 'active',
+        }
+      }
+    },
+
     initializeTournament (customTeams?: TeamSeedData) {
       const data = customTeams || (teamsData as TeamSeedData)
       this.teams = {}
